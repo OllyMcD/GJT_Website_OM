@@ -1,0 +1,86 @@
+﻿@page "/Exercises"
+
+<div style="background-color:#2e3b4e; color: #ffffff;">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pa-5 nike-theme">
+        <MudText Typo="Typo.h4" Style="background-color:#fcf8e3; color: #2e3b4e;" Align="Align.Center" GutterBottom>
+            Interactive Exercises
+        </MudText>
+
+        <!-- Coding Section -->
+        <MudPaper Outlined Class="pa-5 mb-3 border-dashed" Style="background-color:#f8e3f5">
+            <MudText Typo="Typo.h5" GutterBottom>Programming</MudText>
+            <MudStack Spacing="3">
+                <MudText Typo="Typo.h6" GutterBottom>Beginner Level</MudText>
+                <MudStack Row Wrap="Wrap.Wrap">
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
+                        <MudLink Href="https://www.codecademy.com/" Target="_blank">Learn Python Basics</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
+                        <MudLink Href="https://www.freecodecamp.org/" Target="_blank">JavaScript Exercises</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
+                        <MudLink Href="https://www.hackerrank.com/domains/tutorials/10-days-of-javascript" Target="_blank">
+                            10 Days of JavaScript
+                        </MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
+                        <MudLink Href="https://www.geeksforgeeks.org/python-programming-examples/" Target="_blank">
+                            Python Programming Examples
+                        </MudLink>
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        </MudPaper>
+
+        <!-- Problem Solving Section -->
+        <MudPaper Outlined Class="pa-5 mb-3 border-dashed" Style="background-color:#e8f5e9">
+            <MudText Typo="Typo.h5" GutterBottom>Problem Solving</MudText>
+            <MudStack Spacing="3">
+                <MudText Typo="Typo.h6" GutterBottom>Logical Challenges</MudText>
+                <MudStack Row Wrap="Wrap.Wrap">
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
+                        <MudLink Href="https://www.brainzilla.com/" Target="_blank">Logic Games</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
+                        <MudLink Href="https://projecteuler.net/" Target="_blank">Project Euler Problems</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
+                        <MudLink Href="https://www.puzzlebaron.com/" Target="_blank">Puzzle Baron</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
+                        <MudLink Href="https://www.brilliant.org/" Target="_blank">Interactive Problem Solving</MudLink>
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        </MudPaper>
+
+        <!-- Advanced Challenges Section -->
+        <MudPaper Outlined Class="pa-5 border-dashed" Style="background-color:#ffebee">
+            <MudText Typo="Typo.h5" GutterBottom>Advanced Challenges</MudText>
+            <MudStack Spacing="3">
+                <MudText Typo="Typo.h6" GutterBottom>Competitive Programming</MudText>
+                <MudStack Row Wrap="Wrap.Wrap">
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
+                        <MudLink Href="https://www.codewars.com/" Target="_blank">Codewars</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
+                        <MudLink Href="https://leetcode.com/" Target="_blank">LeetCode</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
+                        <MudLink Href="https://www.spoj.com/" Target="_blank">SPOJ</MudLink>
+                    </MudChip>
+                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
+                        <MudLink Href="https://www.topcoder.com/" Target="_blank">TopCoder</MudLink>
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        </MudPaper>
+    </MudContainer>
+</div>
+
+<style>
+    .nike-chip {
+        margin: 10px;
+        font-weight: bold;
+    }
+</style>

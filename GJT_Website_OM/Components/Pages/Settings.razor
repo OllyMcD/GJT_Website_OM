@@ -1,0 +1,23 @@
+﻿@page "/Settings"
+
+@inject OpenAIService OpenAIService
+
+<h3>AI Chat</h3>
+
+<input @bind="UserPrompt" placeholder="Enter your question..." />
+<button @onclick="AskAI">Ask</button>
+
+<p>@AIResponse</p>
+
+@code {
+    private string UserPrompt = "";
+    private string AIResponse = "";
+
+    private async Task AskAI()
+    {
+        if (!string.IsNullOrWhiteSpace(UserPrompt))
+        {
+            AIResponse = await OpenAIService.GetResponseAsync(UserPrompt);
+        }
+    }
+}

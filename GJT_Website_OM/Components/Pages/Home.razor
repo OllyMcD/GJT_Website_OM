@@ -1,0 +1,183 @@
+﻿@page "/Home"
+@inherits LayoutComponentBase
+
+<div style="background-color:#39414d">
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pa-5 nike-theme">
+        <MudGrid>
+            <!-- Hero Section -->
+            <MudItem xs="12">
+                <MudPaper Class="hero-section pa-4" Elevation="4">
+                    <MudText Typo="Typo.h3" Class="text-center mb-4">Education for the Future</MudText>
+                    <MudText Typo="Typo.subtitle1" Class="text-center mb-4">
+                        Providing children with the skills they need to succeed. Let's build a brighter tomorrow together.
+                    </MudText>
+                    <div class="d-flex justify-center">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Class="mx-2" href="/pricing">
+                            View Pricing
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Class="mx-2">
+                            Learn More
+                        </MudButton>
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+    <!-- Features Section -->
+    <MudItem xs="12" sm="6" lg="4">
+        <MudPaper Class="feature-section pa-4" Elevation="2">
+            <MudText Typo="Typo.h5" Class="mb-2">Empowerment Through Education</MudText>
+            <MudText Class="mb-2">Our innovative approach gives children the tools to succeed in the classroom and beyond.</MudText>
+            <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Primary" Size="Size.Large" Class="mx-2" />
+            <MudText Class="mt-2">Developing critical thinking, creativity, and leadership.</MudText>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" lg="4">
+        <MudPaper Class="feature-section pa-4" Elevation="2">
+            <MudText Typo="Typo.h5" Class="mb-2">Interactive Learning</MudText>
+            <MudText Class="mb-2">Through fun and engaging materials, we make learning enjoyable for kids.</MudText>
+            <MudIconButton Icon="@Icons.Material.Filled.School" Color="Color.Primary" Size="Size.Large" Class="mx-2" />
+            <MudText Class="mt-2">Gamified learning experiences to boost engagement and performance.</MudText>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" lg="4">
+        <MudPaper Class="feature-section pa-4" Elevation="2">
+            <MudText Typo="Typo.h5" Class="mb-2">Expert Support</MudText>
+            <MudText Class="mb-2">Our dedicated educators ensure personalized attention for every student.</MudText>
+            <MudIconButton Icon="@Icons.Material.Filled.Person" Color="Color.Primary" Size="Size.Large" Class="mx-2" />
+            <MudText Class="mt-2">Support for every child, every step of the way.</MudText>
+        </MudPaper>
+    </MudItem>
+    
+    <br />
+    <br />
+
+    <!-- Pricing Section -->
+    <MudItem xs="12" class="pricing-section">
+        <MudPaper Class="pa-4" Elevation="2">
+            <MudText Typo="Typo.h4" Class="text-center mb-4">Affordable Pricing Plans</MudText>
+            <MudGrid>
+                <MudItem xs="12" sm="4">
+                    <MudPaper Class="pricing-card pa-4" Elevation="2">
+                        <MudText Typo="Typo.h6" Class="text-center mb-2">Basic Plan</MudText>
+                        <MudText Typo="Typo.body1" Class="text-center mb-4">$19/month</MudText>
+                        <MudText Class="text-center">Access to all basic courses</MudText>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth Class="mt-4">
+                            Sign Up
+                        </MudButton>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="4">
+                    <MudPaper Class="pricing-card pa-4" Elevation="2">
+                        <MudText Typo="Typo.h6" Class="text-center mb-2">Premium Plan</MudText>
+                        <MudText Typo="Typo.body1" Class="text-center mb-4">$49/month</MudText>
+                        <MudText Class="text-center">All basic courses + exclusive content and workshops</MudText>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth Class="mt-4">
+                            Sign Up
+                        </MudButton>
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="12" sm="4">
+                    <MudPaper Class="pricing-card pa-4" Elevation="2">
+                        <MudText Typo="Typo.h6" Class="text-center mb-2">Ultimate Plan</MudText>
+                        <MudText Typo="Typo.body1" Class="text-center mb-4">$99/month</MudText>
+                        <MudText Class="text-center">Access to all courses + 1-on-1 mentorship</MudText>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth Class="mt-4">
+                            Sign Up
+                        </MudButton>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    </MudItem>
+
+    <br />
+
+    <!-- Call to Action -->
+    <MudItem xs="12">
+        <MudPaper Class="cta-section pa-4" Elevation="4">
+            <MudText Typo="Typo.h4" Class="text-center mb-4">Ready to Invest in Your Child's Future?</MudText>
+            <MudText Class="text-center mb-4">
+                With our interactive and dynamic courses, your child will be ready to face tomorrow’s challenges.
+            </MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Class="mx-2" href="/pricing">
+                Start Today
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+            <!-- Call to Action -->
+            <MudItem xs="12">
+                <MudPaper Class="cta-section pa-4" Elevation="4">
+                    <MudText Typo="Typo.h4" Class="text-center mb-4">Call Us </MudText>
+                    <MudText Class="text-center mb-4">
+                        07494233135
+                    </MudText>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Class="mx-2" href="/pricing">
+                        Do It!
+                    </MudButton>
+                </MudPaper>
+            </MudItem>
+</MudGrid>
+</MudContainer>
+</div>
+
+<style>
+    /* Hero Section */
+    .hero-section {
+        background-color: #111111;
+        color: white;
+        text-align: center;
+        padding: 80px 0;
+    }
+
+    /* Feature Section */
+    .feature-section {
+        background-color: #f4f4f4;
+        border-radius: 8px;
+        text-align: center;
+        padding: 20px;
+    }
+
+        .feature-section .mud-icon-button {
+            background-color: #ff8c00;
+        }
+
+    /* Pricing Section */
+    .pricing-section {
+        padding: 50px 0;
+        background-color: #f9f9f9;
+    }
+
+    /* Pricing Card */
+    .pricing-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        text-align: center;
+    }
+
+        .pricing-card .mud-button {
+            background-color: #ff8c00;
+            color: white;
+        }
+
+    /* CTA Section */
+    .cta-section {
+        background-color: #111111;
+        color: white;
+        text-align: center;
+ 
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #111111;
+        color: white;
+        padding: 20px 0;
+    }
+
+</style>
