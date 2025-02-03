@@ -1,23 +1,125 @@
 ﻿@page "/Settings"
+@inject OpenAIHttpService OpenAiService
 
-@inject OpenAIService OpenAIService
+<MudContainer MaxWidth="MaxWidth.Large">
+    <!-- Page Heading -->
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="settings-title">Settings</MudText>
+    <br />
 
-<h3>AI Chat</h3>
+    <!-- Accessibility Options (Above Chat) -->
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudSwitch T="object" Label="High Contrast Mode" @bind-Checked="isHighContrast" />
+        </MudItem>
+        <MudItem xs="12" sm="6">
+            <MudSlider Min="12" Max="32" Step="2" @bind-Value="TextSize" Label="Text Size" />
+        </MudItem>
+    </MudGrid>
+    <!-- Spacer to Push Other Items Down -->
+    <div style="height: 100px;"></div>
 
-<input @bind="UserPrompt" placeholder="Enter your question..." />
-<button @onclick="AskAI">Ask</button>
+    <!-- Chat AI Section -->
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="settings-title">OpenAI</MudText>
+    <br />
 
-<p>@AIResponse</p>
+    <MudPaper Elevation="4" Class="chat-container">
+        <MudGrid>
+            <MudItem xs="12">
+                <MudTextField @bind-Value="UserInput" Label="Ask a question..." FullWidth="true" />
+            </MudItem>
+            <MudItem xs="12">
+                <MudButton OnClick="SendMessage" Color="Color.Primary" FullWidth="true">Submit</MudButton>
+            </MudItem>
+            <MudItem xs="12">
+                <MudPaper Elevation="2" Class="chat-box">
+                    <MudChat>
+                        @foreach (var message in ChatMessages)
+                        {
+                            <MudChatBubble Class="@GetChatBubbleClass(message.IsUser)">
+                                @message.Content
+                            </MudChatBubble>
+                        }
+                    </MudChat>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Spacer to Push Other Items Down -->
+    <div style="height: 100px;"></div>
+
+    <!-- Additional Links Section (Account Settings, Accessibility) -->
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="settings-title">Accessibility</MudText>
+    <br />
+    <MudGrid>
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Style="padding: 20px; text-align: center;">
+                <MudText Typo="Typo.h6">Accessibility Options</MudText>
+                <MudLink Href="/accessibility" Color="Color.Primary">Go to Accessibility Settings</MudLink>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Style="padding: 20px; text-align: center;">
+                <MudText Typo="Typo.h6">Account Settings</MudText>
+                <MudLink Href="/account-settings" Color="Color.Primary">Manage Your Account</MudLink>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
-    private string UserPrompt = "";
-    private string AIResponse = "";
+    private string UserInput = "";
+    private List<ChatMessage> ChatMessages = new List<ChatMessage>();
+    private bool isHighContrast = false;
+    private double TextSize = 16;
 
-    private async Task AskAI()
+    private async Task SendMessage()
     {
-        if (!string.IsNullOrWhiteSpace(UserPrompt))
-        {
-            AIResponse = await OpenAIService.GetResponseAsync(UserPrompt);
-        }
+        ChatMessages.Add(new ChatMessage { Content = UserInput, IsUser = true });
+
+        var openAiResponse = await OpenAiService.GetOpenAIResponseAsync($"Educational answer: {UserInput}.");
+        ChatMessages.Add(new ChatMessage { Content = openAiResponse, IsUser = false });
+
+        UserInput = "";
     }
+
+    private class ChatMessage
+    {
+        public string? Content { get; set; }
+        public bool IsUser { get; set; }
+    }
+
+    private string GetChatBubbleClass(bool isUser) => isUser ? "user-message" : "ai-message";
 }
+
+<style>
+    .settings-title {
+        margin-bottom: 20px;
+    }
+
+    .chat-container {
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .chat-box {
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .user-message {
+        background-color: #e0e0e0;
+        padding: 8px;
+        border-radius: 12px;
+    }
+
+    .ai-message {
+        background-color: #3f51b5;
+        color: white;
+        padding: 8px;
+        border-radius: 12px;
+        margin-left: auto;
+    }
+</style>

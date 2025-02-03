@@ -10,12 +10,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddMudServices();
-builder.Services.AddHttpClient<OpenAIService>(client =>
-{
-    client.BaseAddress = new Uri("https://api.openai.com/");
-});
-builder.Services.AddScoped(sp => new OpenAIService(sp.GetRequiredService<HttpClient>(), builder.Configuration.GetConnectionString("openai")));
-
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<OpenAIHttpService>();
 
 var app = builder.Build();
 

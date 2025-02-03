@@ -1,47 +1,77 @@
-﻿using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-public class OpenAIService
+public class OpenAIHttpService
 {
     private readonly HttpClient _httpClient;
-    private const string ApiUrl = "https://api.openai.com/v1/chat/completions"; // Adjust endpoint if needed
     private readonly string _apiKey;
 
-    public OpenAIService(HttpClient httpClient, string apiKey)
+    public OpenAIHttpService(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
-        _apiKey = apiKey;
+        _apiKey = configuration["ConnectionStrings:OpenAI:ApiKey"];
     }
 
-    public async Task<string> GetResponseAsync(string prompt)
+    public async Task<string> GetOpenAIResponseAsync(string prompt)
     {
-        var requestData = new
+        // Construct the request body with messages (chat completion format)
+        var requestBody = new
         {
-            model = "gpt-4", // Adjust model if needed
-            messages = new[] { new { role = "user", content = prompt } },
-            max_tokens = 1000,
-            temperature = 0.7
+            model = "gpt-3.5-turbo", // Use the appropriate model name
+            messages = new[]
+            {
+                new { role = "system", content = "You are a helpful assistant." }, // optional, can set the assistant's behavior
+                new { role = "user", content = prompt } // user's input prompt
+            },
+            max_tokens = 100 // Set the max tokens as needed
         };
 
-        var requestContent = new StringContent(
-            JsonSerializer.Serialize(requestData),
-            Encoding.UTF8,
-            "application/json"
-        );
+        var requestContent = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
 
-        _httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", _apiKey);
+        // Set the Authorization header with the API key
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
 
-        var response = await _httpClient.PostAsync(ApiUrl, requestContent);
+        try
+        {
+            // Send the request to OpenAI's chat completion endpoint
+            var response = await _httpClient.PostAsync("https://api.openai.com/v1/chat/completions", requestContent);
 
-        response.EnsureSuccessStatusCode();
+            // Throw an exception if the response status is not successful (400 or 500)
+            response.EnsureSuccessStatusCode();
 
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
+            // Read the response content
+            var result = await response.Content.ReadAsStringAsync();
 
-        return jsonResponse.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();
+            // Deserialize the response into an OpenAIResponse object
+            var completion = JsonConvert.DeserializeObject<OpenAIResponse>(result);
+
+            // Return the assistant's response
+            return completion?.Choices?.FirstOrDefault()?.Message?.Content;
+        }
+        catch (Exception ex)
+        {
+            // Log or handle any errors that occur during the request
+            Console.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
     }
+}
+
+// OpenAI response structure
+public class OpenAIResponse
+{
+    public List<Choice> Choices { get; set; }
+}
+
+// Each choice corresponds to a possible response
+public class Choice
+{
+    public Message? Message { get; set; }
+}
+
+// The message returned by the model
+public class Message
+{
+    public string? Content { get; set; }
 }

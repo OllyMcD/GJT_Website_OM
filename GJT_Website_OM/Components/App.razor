@@ -15,9 +15,26 @@
 </head>
 
 <body>
-    <Routes @rendermode="InteractiveServer" />
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="ball"></div>
+    </div>
+
+    <!-- Main App Content -->
+    <div id="app" style="display: none;">
+        <Routes @rendermode="InteractiveServer" />
+    </div>
+
     <script src="_framework/blazor.web.js"></script>
-    <script src="_context/MudBlazor/MudBlazor.min.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+
+    <script>
+        // Hide loading screen and show app content once Blazor is loaded
+        window.addEventListener('load', function () {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+        });
+    </script>
 </body>
 
 </html>
