@@ -1,4 +1,6 @@
-﻿<MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="3">
+﻿@inject TopicService TopicService
+
+<MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center" Spacing="3">
     <MudItem>
         <MudNavLink Href="/Home" Match="NavLinkMatch.All">Dashboard</MudNavLink>
     </MudItem>
@@ -12,15 +14,14 @@
         <MudNavLink Href="/Certificates" Match="NavLinkMatch.Prefix">Certificates</MudNavLink>
     </MudItem>
     <MudItem>
-        <!-- Dropdown for Subjects -->
         <MudMenu>
             <ActivatorContent>
                 <MudNavLink Match="NavLinkMatch.Prefix">Subjects</MudNavLink>
             </ActivatorContent>
             <ChildContent>
-                <MudMenuItem Label="Maths" />
-                <MudMenuItem Label="Physics" />
-                <MudMenuItem Label="Computing" />
+                <MudMenuItem Label="Maths" OnClick="@(() => SelectTopic("Maths"))" />
+                <MudMenuItem Label="Physics" OnClick="@(() => SelectTopic("Physics"))" />
+                <MudMenuItem Label="Computing" OnClick="@(()=>SelectTopic("Computing"))" />
             </ChildContent>
         </MudMenu>
     </MudItem>
@@ -31,3 +32,10 @@
         <MudNavLink Href="/Settings" Match="NavLinkMatch.Prefix">Settings</MudNavLink>
     </MudItem>
 </MudGrid>
+
+@code {
+    private void SelectTopic(string topic)
+    {
+        TopicService.SelectedTopic = topic;
+    }
+}

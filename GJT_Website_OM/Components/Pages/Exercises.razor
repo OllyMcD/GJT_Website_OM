@@ -1,86 +1,167 @@
-﻿@page "/Exercises"
+﻿@using GJT_Website_OM.Services
+@using GJT_Website_OM.Models
+@inject TopicService TopicService
+@inject QuizService QuizService
+@inject OpenAIHttpService OpenAiService
+@page "/Exercises"
 
-<div style="background-color:#2e3b4e; color: #ffffff;">
-    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pa-5 nike-theme">
-        <MudText Typo="Typo.h4" Style="background-color:#fcf8e3; color: #2e3b4e;" Align="Align.Center" GutterBottom>
-            Interactive Exercises
-        </MudText>
+<MudContainer>
 
-        <!-- Coding Section -->
-        <MudPaper Outlined Class="pa-5 mb-3 border-dashed" Style="background-color:#f8e3f5">
-            <MudText Typo="Typo.h5" GutterBottom>Programming</MudText>
-            <MudStack Spacing="3">
-                <MudText Typo="Typo.h6" GutterBottom>Beginner Level</MudText>
-                <MudStack Row Wrap="Wrap.Wrap">
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
-                        <MudLink Href="https://www.codecademy.com/" Target="_blank">Learn Python Basics</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
-                        <MudLink Href="https://www.freecodecamp.org/" Target="_blank">JavaScript Exercises</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
-                        <MudLink Href="https://www.hackerrank.com/domains/tutorials/10-days-of-javascript" Target="_blank">
-                            10 Days of JavaScript
-                        </MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCC80; color: #000;">
-                        <MudLink Href="https://www.geeksforgeeks.org/python-programming-examples/" Target="_blank">
-                            Python Programming Examples
-                        </MudLink>
-                    </MudChip>
-                </MudStack>
-            </MudStack>
+    <br />
+
+    @if (string.IsNullOrEmpty(TopicService.SelectedTopic))
+    {
+        <MudPaper Class="pa-4">
+            <h3>Select a Subject</h3>
+            <p>Choose a subject from the menu.</p>
         </MudPaper>
-
-        <!-- Problem Solving Section -->
-        <MudPaper Outlined Class="pa-5 mb-3 border-dashed" Style="background-color:#e8f5e9">
-            <MudText Typo="Typo.h5" GutterBottom>Problem Solving</MudText>
-            <MudStack Spacing="3">
-                <MudText Typo="Typo.h6" GutterBottom>Logical Challenges</MudText>
-                <MudStack Row Wrap="Wrap.Wrap">
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
-                        <MudLink Href="https://www.brainzilla.com/" Target="_blank">Logic Games</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
-                        <MudLink Href="https://projecteuler.net/" Target="_blank">Project Euler Problems</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
-                        <MudLink Href="https://www.puzzlebaron.com/" Target="_blank">Puzzle Baron</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #A5D6A7; color: #000;">
-                        <MudLink Href="https://www.brilliant.org/" Target="_blank">Interactive Problem Solving</MudLink>
-                    </MudChip>
-                </MudStack>
-            </MudStack>
-        </MudPaper>
-
-        <!-- Advanced Challenges Section -->
-        <MudPaper Outlined Class="pa-5 border-dashed" Style="background-color:#ffebee">
-            <MudText Typo="Typo.h5" GutterBottom>Advanced Challenges</MudText>
-            <MudStack Spacing="3">
-                <MudText Typo="Typo.h6" GutterBottom>Competitive Programming</MudText>
-                <MudStack Row Wrap="Wrap.Wrap">
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
-                        <MudLink Href="https://www.codewars.com/" Target="_blank">Codewars</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
-                        <MudLink Href="https://leetcode.com/" Target="_blank">LeetCode</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
-                        <MudLink Href="https://www.spoj.com/" Target="_blank">SPOJ</MudLink>
-                    </MudChip>
-                    <MudChip T="object" Class="nike-chip" Style="background-color: #FFCDD2; color: #000;">
-                        <MudLink Href="https://www.topcoder.com/" Target="_blank">TopCoder</MudLink>
-                    </MudChip>
-                </MudStack>
-            </MudStack>
-        </MudPaper>
-    </MudContainer>
-</div>
-
-<style>
-    .nike-chip {
-        margin: 10px;
-        font-weight: bold;
     }
-</style>
+    else
+    {
+        <br />
+
+        <MudPaper Class="pa-4">
+            <MudGrid>
+                <!-- Exercise Section: 12 columns width on extra small screens (xs) -->
+                <MudItem xs="12">
+                    <h3>@TopicService.SelectedTopic Exercises</h3>
+
+                    <MudSelect Label="Select Difficulty" @bind-Value="SelectedDifficulty">
+                        @for (int i = 1; i <= 4; i++)
+                        {
+                            int num = i;
+                            <MudSelectItem Value="@num">@num</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudButton OnClick="LoadQuestions" Color="Color.Primary">Start Quiz</MudButton>
+
+                    @if (Questions != null && Questions.Count > 0 && SelectedQuestionIndex >= 0)
+                    {
+                        <MudCard Class="pa-4 mt-3">
+                            <MudText Typo="Typo.h6">@Questions[SelectedQuestionIndex].Question1</MudText>
+                            <MudTextField Label="Your Answer" @bind-Value="@UserAnswers[Questions[SelectedQuestionIndex].QuizId]" />
+
+                            <MudCardActions>
+                                <MudButton OnClick="PreviousQuestion" Disabled="@(SelectedQuestionIndex == 0)">Previous</MudButton>
+                                <MudButton OnClick="NextQuestion" Disabled="@(SelectedQuestionIndex == Questions.Count - 1)">Next</MudButton>
+                                <MudButton OnClick="CheckAnswer" Color="Color.Secondary">Check Answer</MudButton>
+                            </MudCardActions>
+                        </MudCard>
+
+                        @if (!string.IsNullOrEmpty(AnswerResponse))
+                        {
+                            <MudPaper Class="mt-3">
+                                <MudText>Chatbot Response: </MudText>
+                                <MudText>@AnswerResponse</MudText>
+                            </MudPaper>
+                        }
+                    }
+                </MudItem>
+
+                <!-- Chatbot and Pie Chart Section: Both 6 columns width on extra small screens (xs) -->
+                <MudItem xs="6">
+                    <MudPaper Class="pa-4">
+                        <MudChart ChartType="ChartType.Pie" InputData="@data" @bind-SelectedIndex="Index" InputLabels="@labels" Width="300px" Height="300px" />
+                    </MudPaper>
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudPaper Class="pa-4">
+                        <MudText Typo="Typo.h6">Correct Answers: @CorrectAnswers/5</MudText>
+                    </MudPaper>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    }
+</MudContainer>
+
+@code {
+    private int SelectedDifficulty = 1;
+    private List<Question> Questions = new();
+    private Dictionary<int, string> UserAnswers = new();
+    private int SelectedQuestionIndex = -1;
+    private string AnswerResponse = "";
+    private int CorrectAnswers = 0;
+
+    // Data for Pie chart
+    private double[] data = { 0, 100 }; // Correct answers vs Incorrect answers (initialized)
+    private string[] labels = { "Correct", "Incorrect" };
+    private int Index = -1;
+
+    private async Task LoadQuestions()
+    {
+        if (string.IsNullOrEmpty(TopicService.SelectedTopic)) return;
+
+        List<Quiz> Quizzes = await QuizService.GetQuizzes(SelectedDifficulty, TopicService.SelectedTopic);
+        if (Quizzes.Count != 0)
+        {
+            Questions = await QuizService.GetQuestions(Quizzes[0].QuizId);
+            UserAnswers.Clear();
+            foreach (var question in Questions)
+            {
+                UserAnswers[question.QuizId] = "";
+            }
+            SelectedQuestionIndex = 0; // Start with the first question
+        }
+    }
+
+    private void NextQuestion()
+    {
+        if (SelectedQuestionIndex < Questions.Count - 1)
+        {
+            SelectedQuestionIndex++;
+        }
+    }
+
+    private void PreviousQuestion()
+    {
+        if (SelectedQuestionIndex > 0)
+        {
+            SelectedQuestionIndex--;
+        }
+    }
+
+    private async Task CheckAnswer()
+    {
+        try
+        {
+            string userAnswer = UserAnswers[Questions[SelectedQuestionIndex].QuizId];
+            AnswerResponse = "Thinking...";
+
+            // Generate response from Chatbot
+            AnswerResponse = await OpenAiService.GetOpenAIResponseAsync($"You are being used in a educational quiz about {TopicService.SelectedTopic}. The question is: {Questions[SelectedQuestionIndex].Question1} Users answer is: {userAnswer}. Judge harshly whether the userAnswer is 'Correct' or 'Incorrect'? If no userAnswer or any fault, say 'Please Answer Again'");
+
+            // Check if the response contains "Correct" (case-insensitive)
+            if (AnswerResponse.Contains("Correct", StringComparison.OrdinalIgnoreCase))
+            {
+                CorrectAnswers++;
+                AnswerResponse = "Correct!";
+            }
+            else
+            {
+                AnswerResponse = "Incorrect!";
+            }
+
+            // Update pie chart data
+            data[0] = CorrectAnswers;
+            data[1] = (Questions.Count - CorrectAnswers);
+
+            StateHasChanged(); // Re-render the page to update UI
+        }
+        catch (Exception ex)
+        {
+            AnswerResponse = ex.Message;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        TopicService.OnTopicChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        TopicService.OnTopicChanged -= StateHasChanged;
+    }
+}
